@@ -1,14 +1,16 @@
 package Models;
 
 public class VinhoTinto {
+	public String Nome;
 	public String TeorAlcoolico;
-	public String Tipo = "VinhoTinto";
+	public String Tipo;
 	public String DataFabricacao;
 	public String TamanhoGarrafa;
 	public boolean Industrial;
 	public boolean Artesanal;
 	
-	public VinhoTinto(String TeorAlcoolico, String Tipo, String DataFabricacao, String TamanhoGarrafa, boolean Industrial, boolean Artesanal) {
+	public VinhoTinto(String Nome, String TeorAlcoolico, String Tipo, String DataFabricacao, String TamanhoGarrafa, boolean Industrial, boolean Artesanal) {
+		this.Nome = Nome;
 		this.TeorAlcoolico = TeorAlcoolico;
 		this.Tipo = Tipo;
 		this.DataFabricacao = DataFabricacao;
@@ -17,6 +19,15 @@ public class VinhoTinto {
 		this.Artesanal = Artesanal;
 	}
 	
+	public String getNome() {
+		return Nome;
+	}
+
+
+	public void setNome(String nome) {
+		Nome = nome;
+	}
+
 	public String getTipo() {
 		return Tipo;
 	}
@@ -65,5 +76,27 @@ public class VinhoTinto {
 		Artesanal = artesanal;
 	}
 	
-	
+	public void rotulo()
+	{
+		if(Industrial == true)
+		{
+			System.out.println("----------------Rótulo----------------");
+			System.out.println("Nome: "+Nome);
+			System.out.println("Teor alcoolico: "+TeorAlcoolico);
+			System.out.println("Tipo: "+Tipo);
+			System.out.println("Data de Fabricação: "+DataFabricacao);
+			System.out.println("Tamanho da Garrafa: "+TamanhoGarrafa);
+			System.out.println("Vinho industrializado");
+		}
+		else
+		{
+			System.out.println("----------------Rótulo----------------");
+			System.out.println("Nome: "+Nome);
+			System.out.println("Teor alcoolico: "+TeorAlcoolico);
+			System.out.println("Tipo: "+Tipo);
+			System.out.println("Data de Fabricação: "+DataFabricacao);
+			System.out.println("Tamanho da Garrafa: "+TamanhoGarrafa);
+			System.out.println("Vinho Artesanal");
+		}
+	}
 }
