@@ -1,53 +1,29 @@
 package reflection;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Constructor;
+import java.lang.reflect.*;
+import java.util.Scanner;
 
 public class ExemploReflexao {
 
-    public static void main(String[] args) {
-        Class<?> sensorClass = Sensor.class;
+    public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException{
+        Scanner read = new Scanner(System.in);
 
-        // Obter o nome da classe
-        System.out.println("Nome da classe: " + sensorClass.getName());
+        System.out.println("Digite qual opção de comando deseja: ");
+        System.out.println(" 1 - imprimir as informações; 2 - verificar sensor; 3 - mudar os status do sensor");
+        int option = read.nextInt();
 
-        // Obter os campos da classe
-        Field[] fields = sensorClass.getDeclaredFields();
-        System.out.println("Campos da classe:");
-        for (Field field : fields) {
-            System.out.println(field);
+        switch (option) {
+            case 1:
+                FactorySensor.imprimirInformações("reflection.Sensor");
+                break;
+            case 2:
+                FactorySensor.verificarApitar("reflection.Sensor");
+                break;
+            case 3:
+                FactorySensor.mudarStatus("reflection.Sensor");
+                break;
+            default:
+                System.out.println("Opção não encontrada, executa o programa novamente!");
+                break;
         }
-
-        // Obter os métodos da classe
-        Method[] methods = sensorClass.getMethods();
-        System.out.println("Métodos da classe:");
-        for (Method method : methods) {
-            System.out.println(method);
-        }
-
-        try {
-            // Criar uma instância do Sensor
-            Sensor sensor = new Sensor();
-
-            // Obter o campo "status"
-            Field statusField = sensorClass.getDeclaredField("status");
-
-            // Definir o campo como acessível para modificação
-            statusField.setAccessible(true);
-
-            // Obter o valor atual do campo
-            boolean status = (boolean) statusField.get(sensor);
-            System.out.println("Status atual: " + status);
-
-            // Alterar o valor do campo
-            statusField.set(sensor, !status);
-
-            // Verificar o novo valor do campo
-            status = (boolean) statusField.get(sensor);
-            System.out.println("Novo status: " + status);
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
     }
 }
