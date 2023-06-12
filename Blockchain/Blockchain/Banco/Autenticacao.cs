@@ -10,9 +10,18 @@ namespace ProjetoBlockchain.Banco
     {
         private string EmailAutoridade = "Autoridade13";
         private string SenhaAutoridade = "1234";
-        private string Email;
-        private string Senha;
+        //
+        //
 
-        public 
+        public void Autenticar(string email, string senha)
+        {
+            string Email = email;
+            string Senha = senha;
+
+            if (Email.Equals(EmailAutoridade) && Senha.Equals(SenhaAutoridade))
+            {
+                Program.AcessoAutoridadeModeradora = true;
+            }
+        }
     }
 }
