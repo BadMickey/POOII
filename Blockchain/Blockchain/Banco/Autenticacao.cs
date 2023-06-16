@@ -10,8 +10,6 @@ namespace ProjetoBlockchain.Banco
     {
         private string EmailAutoridade = "Autoridade13";
         private string SenhaAutoridade = "1234";
-        //
-        //
 
         public void Autenticar(string email, string senha)
         {

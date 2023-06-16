@@ -11,6 +11,7 @@ namespace Model
         public int Nonce { get; set; }
         public DateTime Timestamp { get; set; }
         public string SensorId { get; set; }
+        public string Address { get; set; }
         public bool MotionDetected { get; set; }
         public string PreviousHash { get; set; }
         public string Hash { get; set; }
