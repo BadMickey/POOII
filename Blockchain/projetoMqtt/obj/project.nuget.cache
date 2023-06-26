@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "hxdP0utEEEyWlgUgGSZRrDbFJNu1pqU93zEj8o3lMPPeAjVVE4o6G5fx8PrtJuAx6pMkl7zByNBdQ8OSB62CFg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Joãovirone\\Documents\\Projetos\\POOII\\Blockchain\\projetoMqtt\\projetoMqtt.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Joãovirone\\.nuget\\packages\\mqttnet\\4.2.1.781\\mqttnet.4.2.1.781.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -50,3 +50,4 @@ C:\Users\Joãovirone\Documents\Projetos\POOII\Blockchain\Blockchain\obj\Debug\ne
 C:\Users\Joãovirone\Documents\Projetos\POOII\Blockchain\Blockchain\obj\Debug\net6.0\ProjetoBlockchain.pdb
 C:\Users\Joãovirone\Documents\Projetos\POOII\Blockchain\Blockchain\obj\Debug\net6.0\ProjetoBlockchain.genruntimeconfig.cache
 C:\Users\Joãovirone\Documents\Projetos\POOII\Blockchain\Blockchain\obj\Debug\net6.0\ref\ProjetoBlockchain.dll
+C:\Users\Joãovirone\Documents\Projetos\POOII\Blockchain\Blockchain\bin\Debug\net6.0\MQTTnet.dll

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Joãovirone\\Documents\\Projetos\\POOII\\Blockchain\\Blockchain\\ProjetoBlockchain.csproj": {}
+    "C:\\Users\\Joãovirone\\Documents\\Projetos\\POOII\\Blockchain\\projetoMqtt\\projetoMqtt.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Joãovirone\\Documents\\Projetos\\POOII\\Blockchain\\Blockchain\\ProjetoBlockchain.csproj": {
+    "C:\\Users\\Joãovirone\\Documents\\Projetos\\POOII\\Blockchain\\projetoMqtt\\projetoMqtt.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Joãovirone\\Documents\\Projetos\\POOII\\Blockchain\\Blockchain\\ProjetoBlockchain.csproj",
-        "projectName": "ProjetoBlockchain",
-        "projectPath": "C:\\Users\\Joãovirone\\Documents\\Projetos\\POOII\\Blockchain\\Blockchain\\ProjetoBlockchain.csproj",
+        "projectUniqueName": "C:\\Users\\Joãovirone\\Documents\\Projetos\\POOII\\Blockchain\\projetoMqtt\\projetoMqtt.csproj",
+        "projectName": "projetoMqtt",
+        "projectPath": "C:\\Users\\Joãovirone\\Documents\\Projetos\\POOII\\Blockchain\\projetoMqtt\\projetoMqtt.csproj",
         "packagesPath": "C:\\Users\\Joãovirone\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Joãovirone\\Documents\\Projetos\\POOII\\Blockchain\\Blockchain\\obj\\",
+        "outputPath": "C:\\Users\\Joãovirone\\Documents\\Projetos\\POOII\\Blockchain\\projetoMqtt\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Joãovirone\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -43,14 +43,6 @@
             "MQTTnet": {
               "target": "Package",
               "version": "[4.2.1.781, )"
-            },
-            "Microsoft.Data.SqlClient": {
-              "target": "Package",
-              "version": "[5.1.1, )"
-            },
-            "Npgsql": {
-              "target": "Package",
-              "version": "[7.0.4, )"
             }
           },
           "imports": [

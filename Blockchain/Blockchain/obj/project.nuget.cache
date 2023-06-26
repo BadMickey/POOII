@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "A+GECD6VpyaGlbqZ0ioBBA+fhhNBXUYqjHd4A4hcPpLD55TPmcbHMDdz9MIAgadBjcTfJQYiEXq/58WfwzAOtA==",
+  "dgSpecHash": "08gUqHzyL9Lp5o9PWgwBru/8wzmarLOtk1Ibuvf+N+HCbE80MPMxsdhYrgHoWf/ljcE7ulsCDjjsS7UeLisrew==",
   "success": true,
   "projectFilePath": "C:\\Users\\Joãovirone\\Documents\\Projetos\\POOII\\Blockchain\\Blockchain\\ProjetoBlockchain.csproj",
   "expectedPackageFiles": [
@@ -23,6 +23,7 @@
     "C:\\Users\\Joãovirone\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\Joãovirone\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
     "C:\\Users\\Joãovirone\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\Joãovirone\\.nuget\\packages\\mqttnet\\4.2.1.781\\mqttnet.4.2.1.781.nupkg.sha512",
     "C:\\Users\\Joãovirone\\.nuget\\packages\\npgsql\\7.0.4\\npgsql.7.0.4.nupkg.sha512",
     "C:\\Users\\Joãovirone\\.nuget\\packages\\system.configuration.configurationmanager\\6.0.1\\system.configuration.configurationmanager.6.0.1.nupkg.sha512",
     "C:\\Users\\Joãovirone\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
