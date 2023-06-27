@@ -40,7 +40,7 @@ namespace Banco
                             {
                                 Nonce = reader.GetInt32(0),
                                 Timestamp = reader.GetDateTime(1),
-                                SensorId = reader.GetString(2),
+                                SensorId = reader.GetInt32(2),
                                 Address = reader.GetString(3),
                                 MotionDetected = reader.GetBoolean(4),
                                 PreviousHash = reader.GetString(5),
@@ -56,11 +56,11 @@ namespace Banco
                             {
                                 Nonce = 0,
                                 Timestamp = DateTime.Now,
-                                SensorId = "Bloco gênese",
-                                Address = string.Empty,
+                                SensorId = 0,
+                                Address = "Bloco gênese",
                                 MotionDetected = false,
                                 PreviousHash = string.Empty,
-                                Hash = CalculateHash(0, DateTime.Now, "Bloco gênese", string.Empty, false, string.Empty)
+                                Hash = CalculateHash(0, DateTime.Now, 0, "Bloco gênese", false, string.Empty)
                             };
                             chain.Add(genesisBlock);
                             genesis = true;
@@ -87,7 +87,7 @@ namespace Banco
             }
         }
         //Adiciona o bloco na blockchain e BD
-        public void AddBlock(string sensorId, string address, bool motionDetected)
+        public void AddBlock(int sensorId, string address, bool motionDetected)
         {
             Block previousBlock = chain[chain.Count - 1];
             int newNonce = previousBlock.Nonce + 1;
@@ -127,7 +127,7 @@ namespace Banco
             }
         }
         //Calcula o hash
-        private string CalculateHash(int nonce, DateTime timestamp, string sensorId, string address, bool motionDetected, string previousHash)
+        private string CalculateHash(int nonce, DateTime timestamp, int sensorId, string address, bool motionDetected, string previousHash)
         {
             string input = $"{nonce}-{timestamp}-{sensorId}-{address}-{motionDetected}-{previousHash}";
             byte[] bytes = System.Text.Encoding.UTF8.GetBytes(input);
@@ -154,7 +154,7 @@ namespace Banco
             return "A blockchain está válida!";
         }
         //Altera o status do sensor
-        public void ChangeSensorStatus(string sensorId, bool newStatus)
+        public void ChangeSensorStatus(int sensorId, bool newStatus)
         {
             Block OldBlock = chain.LastOrDefault(b => b.SensorId == sensorId);
             Block previousBlock = chain[chain.Count - 1];
@@ -196,7 +196,7 @@ namespace Banco
             }
         }
         //Busca o bloco mais recente que possui um determinado ID de sensor
-        public Block GetLatestBlockForSensor(string sensorId)
+        public Block GetLatestBlockForSensor(int sensorId)
         {
             return chain.LastOrDefault(b => b.SensorId == sensorId);
         }

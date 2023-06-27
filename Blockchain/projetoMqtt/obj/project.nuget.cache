@@ -1,10 +1,25 @@
 {
   "version": 2,
-  "dgSpecHash": "hxdP0utEEEyWlgUgGSZRrDbFJNu1pqU93zEj8o3lMPPeAjVVE4o6G5fx8PrtJuAx6pMkl7zByNBdQ8OSB62CFg==",
+  "dgSpecHash": "or/rJ0cr1qQ4j8i1Cu3kPpIdqPNk+ioiDwcxMGq1ZU2hNcJXnsxArOg52onOon41PyCjciMZ8nN1M0W/q4YaMA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Joãovirone\\Documents\\Projetos\\POOII\\Blockchain\\projetoMqtt\\projetoMqtt.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Joãovirone\\.nuget\\packages\\mqttnet\\4.2.1.781\\mqttnet.4.2.1.781.nupkg.sha512"
+    "C:\\Users\\Joãovirone\\.nuget\\packages\\m2mqtt\\4.3.0\\m2mqtt.4.3.0.nupkg.sha512",
+    "C:\\Users\\Joãovirone\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\6.0.0\\microsoft.extensions.logging.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\Joãovirone\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
+    "C:\\Users\\Joãovirone\\.nuget\\packages\\npgsql\\7.0.4\\npgsql.7.0.4.nupkg.sha512",
+    "C:\\Users\\Joãovirone\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "O pacote 'M2Mqtt 4.3.0' foi restaurado usando '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' em vez da estrutura de destino do projeto 'net6.0'. Esse pacote pode não ser totalmente compatível com o seu projeto.",
+      "libraryId": "M2Mqtt",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
 }

@@ -1,19 +1,24 @@
 ﻿using System;
+using uPLibrary.Networking.M2Mqtt;
+using uPLibrary.Networking.M2Mqtt.Messages;
 using System.Diagnostics;
-using MQTTnet;
-using MQTTnet.Client;
 using Banco;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Text;
 using ProjetoBlockchain.Banco;
 using Model;
+using Newtonsoft.Json;
 
 namespace ProjetoBlockchain
 {
     public class Program
     {
+        static MqttClient mqttClient;
+
         public static bool AcessoAutoridadeModeradora = false;
+        static string connectionString = "Server=localhost;Port=5433;User Id=postgres;Password=0000;database=Blockchain";
+        static Blockchain blockchain = new Blockchain(connectionString);
+
         static void Main(string[] args)
         {
             //"Server=localhost;Port=5433;User Id=postgres;Password=0000;database=Blockchain";
@@ -21,13 +26,12 @@ namespace ProjetoBlockchain
             Console.WriteLine("Seja bem-vindo a Blockchain da Smart Home Security System!");
             //Console.WriteLine("Digite abaixo a connection string do banco de dados:");
             //string connection = Console.ReadLine();
-            string connectionString = "Server=localhost;Port=5433;User Id=postgres;Password=0000;database=Blockchain";
             Console.WriteLine("Blockchain carregada!");
-            Blockchain blockchain = new Blockchain(connectionString);
 
             int opcaoPrimaria = 0;
             while(true)
             {
+                Console.Clear();
                 Console.WriteLine("Você pode escolher entre:");
                 Console.WriteLine("1 - Visualizar os sensores apitando");
                 Console.WriteLine("2 - Autenticar algum usuário");
@@ -35,10 +39,11 @@ namespace ProjetoBlockchain
                 switch (opcaoPrimaria)
                 {
                     case 1:
+                        Console.Clear();
                         Console.WriteLine("Abrindo logs");
                         var processInfo = new ProcessStartInfo
                         {
-                            FileName = "C:\\Users\\joaov\\OneDrive\\Documentos\\Projetos\\POOII\\Blockchain\\projetoMqtt\\bin\\Debug\\net6.0\\projetoMqtt.exe",
+                            FileName = "C:\\Users\\Joãovirone\\Documents\\Projetos\\POOII\\Blockchain\\projetoMqtt\\bin\\Debug\\net6.0\\projetoMqtt.exe",
                             Arguments = $"/k dotnet run --project projetoMqtt.csproj",
                             UseShellExecute = true
 
@@ -46,30 +51,26 @@ namespace ProjetoBlockchain
 
                         var process = Process.Start(processInfo);
 
-                        var mqttClient = new MqttFactory().CreateMqttClient();
-                        var mqttOptions = new MqttClientOptionsBuilder()
-                            .WithTcpServer("localhost", 1883)
-                            .Build();
+                        
+                        mqttClient = new MqttClient("localhost");
 
-                        mqttClient.ConnectAsync(mqttOptions);
+                        string clientId = Guid.NewGuid().ToString();
+                        mqttClient.Connect(clientId);
 
-                        mqttClient.UseApplicationMessageReceivedHandler(e =>
-                        {
-                            if (e.ApplicationMessage.Topic == "chamar_funcao")
-                            {
-                                var parametro = e.ApplicationMessage.Payload; // Parâmetro recebido do Projeto B
+                        // Inscrever-se ao tópico do Projeto B para receber as mensagens enviadas por ele
+                        mqttClient.MqttMsgPublishReceived += MqttClient_MqttMsgPublishReceived;
+                        mqttClient.Subscribe(new string[] { "sensorid" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
 
-                                Console.WriteLine($"Recebido comando para chamar a função com o parâmetro: {parametro}");
+                        Console.WriteLine("Pressione qualquer tecla para parar o recebimento de requisições e sair");
+                        Console.ReadKey();
 
-                                // Chamar a função no Projeto A com base no parâmetro recebido
-                                ChamarFuncao(parametro);
-                            }
-                        });
+                        mqttClient.Publish("stop", new byte[0], MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+                        mqttClient.Disconnect();
 
-
-                        //process.WaitForExit();
+                        process.Kill();
                         break;
                     case 2:
+                        Console.Clear();
                         Console.WriteLine("Por favor digite suas credenciais de acesso para autenticar seu nível de acesso! ");
                         Console.Write("Email: ");
                         String Email = Console.ReadLine();
@@ -95,7 +96,7 @@ namespace ProjetoBlockchain
                                 {
                                     case 1:
                                         Console.Write("Digite o ID do sensor: ");
-                                        String Sensor = Console.ReadLine();
+                                        int Sensor = Convert.ToInt32(Console.ReadLine());
                                         Console.Write("Digite o endereço do local onde fica o sensor: ");
                                         String Address = Console.ReadLine();
                                         blockchain.AddBlock(Sensor, Address, false);
@@ -104,7 +105,7 @@ namespace ProjetoBlockchain
                                         break;
                                     case 2:
                                         Console.Write("Digite o ID do sensor: ");
-                                        Sensor = Console.ReadLine();
+                                        Sensor = Convert.ToInt32(Console.ReadLine());
                                         Console.Write("Digite o novo status do sensor: ");
                                         bool NewStatus = bool.Parse(Console.ReadLine());
                                         blockchain.ChangeSensorStatus(Sensor, NewStatus);
@@ -112,7 +113,7 @@ namespace ProjetoBlockchain
                                         break;
                                     case 3:
                                         Console.Write("Digite o ID do sensor para localizar: ");
-                                        String SensorLocalize = Console.ReadLine();
+                                        int SensorLocalize = Convert.ToInt32(Console.ReadLine());
                                         Block latestBlock = blockchain.GetLatestBlockForSensor(SensorLocalize);
                                         Console.WriteLine($"Último bloco com esse Id está com o seguinte status de alarme: {latestBlock?.MotionDetected}");
                                         Console.ReadLine();
@@ -123,6 +124,7 @@ namespace ProjetoBlockchain
                                         break;
                                     case 5:
                                         AcoesLogin = false;
+                                        Console.Clear();
                                         break;
                                 }
                             }
@@ -139,7 +141,7 @@ namespace ProjetoBlockchain
                                 {
                                     case 1:
                                         Console.Write("Digite o ID do sensor para localizar: ");
-                                        String SensorLocalize = Console.ReadLine();
+                                        int SensorLocalize = Convert.ToInt32(Console.ReadLine());
                                         Block latestBlock = blockchain.GetLatestBlockForSensor(SensorLocalize);
                                         Console.WriteLine($"Último bloco com esse Id está com o seguinte status de alarme: {latestBlock?.MotionDetected}");
                                         Console.ReadLine();
@@ -150,6 +152,7 @@ namespace ProjetoBlockchain
                                         break;
                                     case 3:
                                         AcoesLogin = false;
+                                        Console.Clear();
                                         break;
                                 }
                             }
@@ -160,6 +163,31 @@ namespace ProjetoBlockchain
                         break;
                 }
             }
+        }
+        private static void MqttClient_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
+        {
+            // Processar a mensagem recebida do Projeto B
+            string mensagem = System.Text.Encoding.UTF8.GetString(e.Message);
+
+            var messageObj = DeserializeMessage(mensagem);
+            int sensorid = messageObj.Sensorid;
+            bool status = messageObj.Status;
+
+            blockchain.ChangeSensorStatus(sensorid, status);
+
+            if (status)
+            {
+                Console.WriteLine($"O sensor {sensorid} foi ligado e está apitando!");
+            }
+            else
+            {
+                Console.WriteLine($"O sensor {sensorid} foi desligado");
+            }
+        }
+
+        static dynamic DeserializeMessage(string mensagem)
+        {
+            return JsonConvert.DeserializeObject(mensagem);
         }
     }
 }

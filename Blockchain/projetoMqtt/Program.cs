@@ -1,40 +1,70 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MQTTnet;
-using MQTTnet.Client;
+using uPLibrary.Networking.M2Mqtt;
+using uPLibrary.Networking.M2Mqtt.Messages;
+using Npgsql;
+using Newtonsoft.Json;
+using System.Runtime.InteropServices;
+using System.Data;
 
 class Program
 {
+    static MqttClient mqttClient;
+
     static async Task Main(string[] args)
     {
-        Console.WriteLine("Teste");
-        Console.ReadLine();
-        /*
-        // Configurar cliente MQTT para enviar comandos ao Projeto A
-        var mqttClient = new MqttFactory().CreateMqttClient();
-        var mqttOptions = new MqttClientOptionsBuilder()
-            .WithTcpServer("localhost", 1883)
-            .Build();
+        string connectionString = "Server=localhost;Port=5433;User Id=postgres;Password=0000;database=Blockchain";
+        List<int> sensores = new List<int>();
+        Random random = new Random();
+        
+        mqttClient = new MqttClient("localhost");
 
-        await mqttClient.ConnectAsync(mqttOptions);
+        string clientId = Guid.NewGuid().ToString();
+        mqttClient.Connect(clientId);
 
         // Loop para enviar requisições MQTT a cada 30 segundos
         while (true)
         {
-            // Envie a requisição MQTT para o Projeto A com um parâmetro
-            var parametro = "exemplo";
-            var message = new MqttApplicationMessageBuilder()
-                .WithTopic("chamar_funcao")
-                .WithPayload(parametro)
-                .Build();
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
 
-            await mqttClient.PublishAsync(message);
+                string sql = "SELECT sensorid FROM blocks";
+                using (var command = new NpgsqlCommand(sql, connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int sensor = reader.GetInt32(0);
+                            sensores.Add(sensor);
+                        }
+                    }
+                }
+                connection.Close();
+            }
 
-            Console.WriteLine($"Requisição enviada para chamar a função com o parâmetro: {parametro}");
+            int posicao = random.Next(1, sensores.Count);
+            bool status = random.Next(2) == 0;
+            // Construir os dados da requisição MQTT
+            string dados = SerializeMessage(sensores[posicao], status);
 
-            // Aguardar 30 segundos antes de enviar a próxima requisição
-            await Task.Delay(TimeSpan.FromSeconds(30));
-        */
-        //}
+            // Enviar a requisição MQTT para o Projeto A com o tópico "data"
+            mqttClient.Publish("sensorid", System.Text.Encoding.UTF8.GetBytes(dados), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+
+            // Aguardar 30 segundos
+            Thread.Sleep(TimeSpan.FromSeconds(10));
+        
+        }
+    }
+    static string SerializeMessage(int sensorid, bool status)
+    {
+        var messageObj = new
+        {
+            Sensorid = sensorid,
+            Status = status
+        };
+
+        return JsonConvert.SerializeObject(messageObj);
     }
 }
