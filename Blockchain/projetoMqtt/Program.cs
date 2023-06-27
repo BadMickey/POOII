@@ -8,6 +8,7 @@ class Program
     static async Task Main(string[] args)
     {
         Console.WriteLine("Teste");
+        Console.ReadLine();
         /*
         // Configurar cliente MQTT para enviar comandos ao Projeto A
         var mqttClient = new MqttFactory().CreateMqttClient();
@@ -34,6 +35,6 @@ class Program
             // Aguardar 30 segundos antes de enviar a próxima requisição
             await Task.Delay(TimeSpan.FromSeconds(30));
         */
-        }
+        //}
     }
 }

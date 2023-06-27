@@ -38,14 +38,36 @@ namespace ProjetoBlockchain
                         Console.WriteLine("Abrindo logs");
                         var processInfo = new ProcessStartInfo
                         {
-                            FileName = "dotnet",
-                            Arguments = "run --project projetoMqtt.csproj",
-                            RedirectStandardOutput = true,
-                            UseShellExecute = false,
-                            CreateNoWindow = true
+                            FileName = "C:\\Users\\joaov\\OneDrive\\Documentos\\Projetos\\POOII\\Blockchain\\projetoMqtt\\bin\\Debug\\net6.0\\projetoMqtt.exe",
+                            Arguments = $"/k dotnet run --project projetoMqtt.csproj",
+                            UseShellExecute = true
+
                         };
 
                         var process = Process.Start(processInfo);
+
+                        var mqttClient = new MqttFactory().CreateMqttClient();
+                        var mqttOptions = new MqttClientOptionsBuilder()
+                            .WithTcpServer("localhost", 1883)
+                            .Build();
+
+                        mqttClient.ConnectAsync(mqttOptions);
+
+                        mqttClient.UseApplicationMessageReceivedHandler(e =>
+                        {
+                            if (e.ApplicationMessage.Topic == "chamar_funcao")
+                            {
+                                var parametro = e.ApplicationMessage.Payload; // Parâmetro recebido do Projeto B
+
+                                Console.WriteLine($"Recebido comando para chamar a função com o parâmetro: {parametro}");
+
+                                // Chamar a função no Projeto A com base no parâmetro recebido
+                                ChamarFuncao(parametro);
+                            }
+                        });
+
+
+                        //process.WaitForExit();
                         break;
                     case 2:
                         Console.WriteLine("Por favor digite suas credenciais de acesso para autenticar seu nível de acesso! ");
