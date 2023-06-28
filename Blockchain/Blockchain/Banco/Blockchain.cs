@@ -28,26 +28,28 @@ namespace Banco
             {
                 connection.Open();
 
-                string query = "SELECT * FROM Blocks ORDER BY Nonce DESC";
+                string query = "SELECT * FROM blocks ORDER BY Nonce ASC";
                 using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
                 {
                     using (NpgsqlDataReader reader = command.ExecuteReader())
                     {
                         //Carrega a blockchain do BD para a memória
-                        if (reader.Read())
+                        if (reader.HasRows)
                         {
-                            Block genesisBlock = new Block
+                            while (reader.Read())
                             {
-                                Nonce = reader.GetInt32(0),
-                                Timestamp = reader.GetDateTime(1),
-                                SensorId = reader.GetInt32(2),
-                                Address = reader.GetString(3),
-                                MotionDetected = reader.GetBoolean(4),
-                                PreviousHash = reader.GetString(5),
-                                Hash = reader.GetString(6)
-                            };
-
-                            chain.Add(genesisBlock);
+                                Block genesisBlock = new Block
+                                {
+                                    Nonce = reader.GetInt32(0),
+                                    Timestamp = reader.GetDateTime(1),
+                                    SensorId = reader.GetInt32(2),
+                                    Address = reader.GetString(3),
+                                    MotionDetected = reader.GetBoolean(4),
+                                    PreviousHash = reader.GetString(5),
+                                    Hash = reader.GetString(6)
+                                };
+                                chain.Add(genesisBlock);
+                            }
                         }
                         else
                         {

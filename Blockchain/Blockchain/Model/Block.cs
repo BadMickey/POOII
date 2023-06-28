@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
+    //Modelo do bloco
     public class Block
     {
         public int Nonce { get; set; }
